@@ -70,9 +70,9 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
         Intent goToNextActivity = null;
         if (v.getId() == R.id.addFAB) {
             if (firebaseUser != null) {
-                goToNextActivity = new Intent(getApplicationContext(), UploadingActivity.class);
+                goToNextActivity = new Intent(getApplicationContext(), SignUpActivity.class);
             } else {
-                goToNextActivity = new Intent(getApplicationContext(), LoginActivity.class);
+                goToNextActivity = new Intent(getApplicationContext(), SignUpActivity.class);
             }
         } else {
             String situationType = "";
