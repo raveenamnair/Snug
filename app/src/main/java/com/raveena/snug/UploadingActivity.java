@@ -73,13 +73,18 @@ public class UploadingActivity extends AppCompatActivity {
                 videoField.setVideoURI(videoUri);
                 Toast.makeText(getApplicationContext(), getRealPathFromURI(getApplicationContext(), videoUri), Toast.LENGTH_LONG).show();
 
-                videoField.start();
 
                 if (uploadTask != null && uploadTask.isInProgress()) {
                     Toast.makeText(UploadingActivity.this, "Upload in progress...", Toast.LENGTH_SHORT).show();
                 } else {
                     UploadVideo();
                 }
+
+                Intent i = new Intent(getApplicationContext(), VideoListActivity.class);
+                i.putExtra("SITUATION_TYPE", "Car");
+                startActivity(i);
+                //videoField.start();
+
 
             }catch(Exception e){
                 e.printStackTrace();

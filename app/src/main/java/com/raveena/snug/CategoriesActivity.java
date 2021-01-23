@@ -94,7 +94,7 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
                     situationType = "Home";
                     break;
             }
-            goToNextActivity = new Intent(getApplicationContext(), UploadingActivity.class);
+            goToNextActivity = new Intent(getApplicationContext(), VideoListActivity.class);
             // this tells what type of video to have listed
             goToNextActivity.putExtra("SITUATION_TYPE", situationType);
 
