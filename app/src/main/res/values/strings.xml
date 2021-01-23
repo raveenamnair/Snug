@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Snug</string>
+    <string-array name="categories">
+        <item>Car</item>
+        <item>Party</item>
+        <item>Group</item>
+        <item>Walk</item>
+        <item>Alone</item>
+        <item>Work</item>
+        <item>School</item>
+        <item>Store</item>
+        <item>Home</item>
+    </string-array>
 </resources>

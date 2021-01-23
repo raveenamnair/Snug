@@ -12,7 +12,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -31,10 +34,11 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 
-public class UploadingActivity extends AppCompatActivity {
+public class UploadingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     Button uploadBtn;
     VideoView videoField;
+//    Spinner spinner = findViewById(R.id.categories);
     private Uri videoUri;
     private static final int REQUEST_CODE = 1;
     private StorageReference videoRef;
@@ -63,6 +67,10 @@ public class UploadingActivity extends AppCompatActivity {
 
             }
         });
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
+//        spinner.setOnItemSelectedListener(this);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -109,7 +117,7 @@ public class UploadingActivity extends AppCompatActivity {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
-    
+
     //upload video filepath to firebase storage
     private void UploadVideo() {
         //TODO: progress bar?
@@ -149,5 +157,16 @@ public class UploadingActivity extends AppCompatActivity {
         } else {
             Toast.makeText(UploadingActivity.this, "No Video Selected", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //TODO
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
