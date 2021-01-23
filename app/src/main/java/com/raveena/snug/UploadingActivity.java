@@ -78,6 +78,7 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 startActivityForResult(intent, REQUEST_CODE);
 
                 videoRef = FirebaseStorage.getInstance().getReference("uploads");
+                System.out.println(videoRef.getPath());
             }
         });
 

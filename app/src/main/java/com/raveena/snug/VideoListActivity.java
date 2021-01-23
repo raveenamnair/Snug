@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -15,8 +16,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -24,6 +29,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VideoListActivity extends AppCompatActivity {
 
@@ -47,9 +53,23 @@ public class VideoListActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference fdb = FirebaseDatabase.getInstance().getReference();
+        fdb.child("Videos").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        StorageReference storageReference = storage.getReference().child("uploads/1611424481054.mp4");
+                String filepath = snapshot.getValue(String.class);
+                Log.d("TAG", "Value is: " + filepath);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        StorageReference storageReference = storage.getReference().child("uploads/299088ee-d39f-4db4-a612-a8085cc6ea4c.mp4");
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
