@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "211254740341",
+    "project_id": "snug-81015",
+    "storage_bucket": "snug-81015.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211254740341:android:df586ac7ce063679ddbf3c",
+        "android_client_info": {
+          "package_name": "com.raveena.snug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "211254740341-g3hvcb95j0u7g9korfempt59u85ghr8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhRpU9audrwLizkU4Y8zp1qZnJNQnL66w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "211254740341-g3hvcb95j0u7g9korfempt59u85ghr8v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
