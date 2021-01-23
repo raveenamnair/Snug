@@ -81,13 +81,18 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 videoField.setVideoURI(videoUri);
                 Toast.makeText(getApplicationContext(), getRealPathFromURI(getApplicationContext(), videoUri), Toast.LENGTH_LONG).show();
 
-                videoField.start();
 
                 if (uploadTask != null && uploadTask.isInProgress()) {
                     Toast.makeText(UploadingActivity.this, "Upload in progress...", Toast.LENGTH_SHORT).show();
                 } else {
                     UploadVideo();
                 }
+
+                Intent i = new Intent(getApplicationContext(), VideoListActivity.class);
+                i.putExtra("SITUATION_TYPE", "Car");
+                startActivity(i);
+                //videoField.start();
+
 
             }catch(Exception e){
                 e.printStackTrace();
@@ -140,11 +145,12 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                         Uri downloadUri = task.getResult();
                         String videoUri = downloadUri.toString();
 
-                        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                        HashMap<String, Object> hashMap = new HashMap<>();
+                        //reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                        /*HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("videoUrl", videoUri);
-                        reference.updateChildren(hashMap);
+                        reference.updateChildren(hashMap);*/
                     } else {
+                        System.out.println("Error here?");
                         Toast.makeText(UploadingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
