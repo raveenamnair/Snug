@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -70,9 +71,9 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
         Intent goToNextActivity = null;
         if (v.getId() == R.id.addFAB) {
             if (firebaseUser != null) {
-                goToNextActivity = new Intent(getApplicationContext(), SignUpActivity.class);
+                goToNextActivity = new Intent(getApplicationContext(), UploadingActivity.class);
             } else {
-                goToNextActivity = new Intent(getApplicationContext(), SignUpActivity.class);
+                goToNextActivity = new Intent(getApplicationContext(), LoginActivity.class);
             }
         } else {
             String situationType = "";
