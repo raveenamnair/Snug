@@ -128,6 +128,7 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
         //TODO: progress bar?
         if (videoUri != null) {
             videoId = UUID.randomUUID().toString();
+
             final StorageReference fileReference = videoRef.child(videoId +
                     "." + getFileExtension(videoUri));
             uploadTask = fileReference.putFile(videoUri);
@@ -143,14 +144,16 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful()) {
-                        
                         Uri downloadUri = task.getResult();
-                        String videoUri = downloadUri.toString();
-
-                        /*reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                        String videoUri2 = downloadUri.toString();
+                        reference = FirebaseDatabase.getInstance().getReference("Videos").child(videoId);
                         HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("videoUrl", videoUri);
-                        reference.updateChildren(hashMap);*/
+                        hashMap.put("videoId", videoId);
+                        hashMap.put("videoUri", videoUri2);
+                        hashMap.put("filePath", videoId + getFileExtension(videoUri));
+//                        hashMap.put("category", );
+                        reference.setValue(hashMap);
+
                     } else {
                         System.out.println("Error here?");
                         Toast.makeText(UploadingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
