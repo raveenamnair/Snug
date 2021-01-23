@@ -3,6 +3,9 @@
     <color name="linen">#F4EBE2</color>
     <color name="taupeGray">#91818A</color>
     <color name="tealBlue">#0B6E84</color>
-    <color name="bdazzledBlue">#295279</color>
     <color name="lightGray">#C4C4C4</color>
+    <color name="lightTealBlue">#759BA4</color>
+    <color name="bdazzledBlue">#295279</color>
+    <color name="black">#000000</color>
+    <color name="errorRed">#B8002E</color>
 </resources>
