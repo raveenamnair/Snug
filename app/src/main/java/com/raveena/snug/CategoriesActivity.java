@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * CategoriesActivity class
@@ -27,6 +29,8 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
             store_card, home_card;
     FloatingActionButton add_fab;
 
+    FirebaseUser firebaseUser;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +60,20 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
         home_card.setOnClickListener(this);
         add_fab.setOnClickListener(this);
 
+        //Firebase Auth
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @Override
     public void onClick(View v) {
         Intent goToNextActivity = null;
         if (v.getId() == R.id.addFAB) {
-            goToNextActivity = new Intent(getApplicationContext(), LoginActivity.class);
+            if (firebaseUser != null) {
+                goToNextActivity = new Intent(getApplicationContext(), UploadingActivity.class);
+            } else {
+                goToNextActivity = new Intent(getApplicationContext(), LoginActivity.class);
+            }
         } else {
             String situationType = "";
             switch (v.getId()) {
