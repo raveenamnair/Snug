@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class UploadingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -45,6 +46,7 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
     private DatabaseReference reference;
     private FirebaseUser firebaseUser;
     private StorageTask uploadTask;
+    private String videoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,6 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 videoField.setVideoURI(videoUri);
                 Toast.makeText(getApplicationContext(), getRealPathFromURI(getApplicationContext(), videoUri), Toast.LENGTH_LONG).show();
 
-
                 if (uploadTask != null && uploadTask.isInProgress()) {
                     Toast.makeText(UploadingActivity.this, "Upload in progress...", Toast.LENGTH_SHORT).show();
                 } else {
@@ -92,7 +93,6 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 i.putExtra("SITUATION_TYPE", "Car");
                 startActivity(i);
                 //videoField.start();
-
 
             }catch(Exception e){
                 e.printStackTrace();
@@ -127,7 +127,8 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
     private void UploadVideo() {
         //TODO: progress bar?
         if (videoUri != null) {
-            final StorageReference fileReference = videoRef.child(System.currentTimeMillis() +
+            videoId = UUID.randomUUID().toString();
+            final StorageReference fileReference = videoRef.child(videoId +
                     "." + getFileExtension(videoUri));
             uploadTask = fileReference.putFile(videoUri);
             uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -142,11 +143,12 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful()) {
+                        
                         Uri downloadUri = task.getResult();
                         String videoUri = downloadUri.toString();
 
-                        //reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                        /*HashMap<String, Object> hashMap = new HashMap<>();
+                        /*reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                        HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("videoUrl", videoUri);
                         reference.updateChildren(hashMap);*/
                     } else {
