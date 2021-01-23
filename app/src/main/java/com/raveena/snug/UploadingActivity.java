@@ -3,6 +3,7 @@ package com.raveena.snug;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -102,11 +104,18 @@ public class UploadingActivity extends AppCompatActivity {
         }
     }
 
+    private String getFileExtension(Uri uri) {
+        ContentResolver contentResolver = UploadingActivity.this.getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+    
     //upload video filepath to firebase storage
     private void UploadVideo() {
         //TODO: progress bar?
         if (videoUri != null) {
-            final StorageReference fileReference = videoRef.child(videoUri.toString());
+            final StorageReference fileReference = videoRef.child(System.currentTimeMillis() +
+                    "." + getFileExtension(videoUri));
             uploadTask = fileReference.putFile(videoUri);
             uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
