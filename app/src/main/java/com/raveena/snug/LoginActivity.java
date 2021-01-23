@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     //widgets
     EditText usernameET, passwordET;
     Button loginBtn, signupBtn;
+    TextInputLayout emailTextTL, passwordTextTL;
 
     //firebase
     FirebaseAuth firebaseAuth;
@@ -51,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         passwordET = findViewById(R.id.passwordLogin);
         loginBtn = findViewById(R.id.loginBtn);
         signupBtn = findViewById(R.id.signUpBtn);
+        emailTextTL = findViewById(R.id.emailTextTL);
+        passwordTextTL = findViewById(R.id.passwordTextTL);
 
         //Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -80,8 +84,10 @@ public class LoginActivity extends AppCompatActivity {
                 String passwordText = passwordET.getText().toString();
 
                 //Check if any fields are empty
-                if (TextUtils.isEmpty(emailText) || TextUtils.isEmpty(passwordText)) {
-                    Toast.makeText(LoginActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(emailText)) {
+                    emailTextTL.setError("Please enter your email address");
+                } else if (TextUtils.isEmpty(passwordText)) {
+                    passwordTextTL.setError("Please enter your password");
                 }
                 else {
                     firebaseAuth.signInWithEmailAndPassword(emailText, passwordText)
@@ -96,7 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                                         finish();
                                     }
                                     else {
-                                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                        emailTextTL.setError("Possible incorrect email");
+                                        passwordTextTL.setError("Possible incorrect password");
                                     }
                                 }
                             });
