@@ -123,11 +123,12 @@ public class UploadingActivity extends AppCompatActivity {
                         Uri downloadUri = task.getResult();
                         String videoUri = downloadUri.toString();
 
-                        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                        HashMap<String, Object> hashMap = new HashMap<>();
+                        //reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                        /*HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("videoUrl", videoUri);
-                        reference.updateChildren(hashMap);
+                        reference.updateChildren(hashMap);*/
                     } else {
+                        System.out.println("Error here?");
                         Toast.makeText(UploadingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
