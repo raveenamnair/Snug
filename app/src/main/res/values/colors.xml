@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="linen">#F4EBE2</color>
+    <color name="taupeGray">#91818A</color>
+    <color name="tealBlue">#0B6E84</color>
+    <color name="bdazzledBlue">#295279</color>
 </resources>
