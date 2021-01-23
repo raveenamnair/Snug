@@ -80,6 +80,9 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                emailTextTL.setErrorEnabled(false);
+                passwordTextTL.setErrorEnabled(false);
+
                 final String emailText = usernameET.getText().toString();
                 String passwordText = passwordET.getText().toString();
 
