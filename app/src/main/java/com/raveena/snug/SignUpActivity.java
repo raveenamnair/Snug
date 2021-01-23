@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
     //widgets
     EditText nameET, passwordET, emailET, confirmPassET;
     Button signUpBtn, signInBtn;
+    TextInputLayout emailTextTL, passwordTextTL, confirmPasswordTL, nameTL;
 
     //firebase
     FirebaseAuth firebaseAuth;
@@ -42,6 +44,10 @@ public class SignUpActivity extends AppCompatActivity {
         confirmPassET = findViewById(R.id.confirmPassword);
         signUpBtn = findViewById(R.id.signUpBtn2);
         signInBtn = findViewById(R.id.signInBtn);
+        emailTextTL = findViewById(R.id.emailTextTL);
+        passwordTextTL = findViewById(R.id.passwordTextTL);
+        confirmPasswordTL = findViewById(R.id.confirmPasswordTL);
+        nameTL = findViewById(R.id.nameTextTL);
 
         //firebase
         firebaseAuth = FirebaseAuth.getInstance();
@@ -63,13 +69,22 @@ public class SignUpActivity extends AppCompatActivity {
                 String emailText = emailET.getText().toString();
                 String passwordText = passwordET.getText().toString();
                 String confirmPassText = confirmPassET.getText().toString();
+                nameTL.setErrorEnabled(false);
+                emailTextTL.setErrorEnabled(false);
+                passwordTextTL.setErrorEnabled(false);
+                confirmPasswordTL.setErrorEnabled(false);
 
                 //make sure all fields are filled in
-                if (TextUtils.isEmpty(nameText) || TextUtils.isEmpty(emailText) ||
-                        TextUtils.isEmpty(passwordText) || TextUtils.isEmpty(confirmPassText)) {
-                    Toast.makeText(SignUpActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(nameText)) {
+                    nameTL.setError("Please enter your full name");
+                } else if (TextUtils.isEmpty(emailText)) {
+                    emailTextTL.setError("Please enter your email address");
+                } else if (TextUtils.isEmpty(passwordText)) {
+                    passwordTextTL.setError("Please enter your password");
+                } else if (TextUtils.isEmpty(confirmPassText)) {
+                    confirmPasswordTL.setError("Please enter your password again");
                 } else if (!passwordText.equals(confirmPassText)) {
-                    Toast.makeText(SignUpActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    confirmPasswordTL.setError("Please make sure passwords are identical");
                 } else {
                     Register(nameText, emailText, passwordText);
                 }
@@ -83,6 +98,11 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        nameTL.setErrorEnabled(false);
+                        emailTextTL.setErrorEnabled(false);
+                        passwordTextTL.setErrorEnabled(false);
+                        confirmPasswordTL.setErrorEnabled(false);
+
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                             String userId = firebaseUser.getUid();
@@ -108,7 +128,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         finish();
                                     } else {
                                         task.getException().printStackTrace();
-                                        Toast.makeText(SignUpActivity.this, "Invalid Email or Password", Toast.LENGTH_SHORT).show();
+                                        emailTextTL.setError("Please make sure this is a valid email address");
+                                        passwordTextTL.setError("Please make sure your password's longer than 5 characters");
                                     }
                                 }
                             });

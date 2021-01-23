@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -20,21 +19,23 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.raveena.snug.Model.Video;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class VideoListActivity extends AppCompatActivity {
 
     VideoView video;
+    String videoPath;
     ArrayList <String> l;
+    DatabaseReference reference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +53,31 @@ public class VideoListActivity extends AppCompatActivity {
         // For debugging purposes
         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        DatabaseReference fdb = FirebaseDatabase.getInstance().getReference();
-        fdb.child("Videos").addValueEventListener(new ValueEventListener() {
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference("Videos");
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                String filepath = snapshot.getValue(String.class);
-                Log.d("TAG", "Value is: " + filepath);
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Video video = snapshot1.getValue(Video.class);
+                    videoPath = video.getFilePath();
+                }
+                StorageReference storageReference = storage.getReference().child("uploads/" + videoPath);
+                System.out.println("VIDEOPATH " + videoPath);
+                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        // Got the download URL for 'users/me/profile.png'
+                        System.out.println(uri);
+                        video.setVideoURI(uri);
+                        video.start();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
             }
 
             @Override
@@ -67,23 +85,22 @@ public class VideoListActivity extends AppCompatActivity {
 
             }
         });
-
-
-        StorageReference storageReference = storage.getReference().child("uploads/299088ee-d39f-4db4-a612-a8085cc6ea4c.mp4");
-        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'users/me/profile.png'
-                System.out.println(uri);
-                video.setVideoURI(uri);
-                video.start();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+//        StorageReference storageReference = storage.getReference().child("uploads/" + videoPath);
+//        System.out.println("VIDEOPATH " + videoPath);
+//        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                // Got the download URL for 'users/me/profile.png'
+//                System.out.println(uri);
+//                video.setVideoURI(uri);
+//                video.start();
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle any errors
+//            }
+//        });
 //        l = new ArrayList<>();
 //        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
 //            @Override
