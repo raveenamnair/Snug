@@ -21,6 +21,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class VideoListActivity extends AppCompatActivity {
@@ -41,41 +42,6 @@ public class VideoListActivity extends AppCompatActivity {
 
         // For debugging purposes
         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference("uploads");
-        l = new ArrayList<>();
-//        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-//            @Override
-//            public void onSuccess(ListResult listResult) {
-//                for (StorageReference fileRef : listResult.getItems()) {
-//                    l.add(fileRef.getPath());
-//                    System.out.println(fileRef.getPath());
-//                }
-//                StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("/uploads/1611424481054.mp4");
-//                Uri file = Uri.fromFile(new File("path/to/folderName/file.jpg"));
-//                UploadTask uploadTask = storageRef.putFile(file);
-//
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
-//            }
-//        });
-
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("uploads/1611424481054.mp4");
-        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                video.setVideoURI(uri);
-                video.start();
-            }
-        });
-
-
-        //video.start();
 
 
     }
