@@ -108,7 +108,7 @@ public class UploadingActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), VideoListActivity.class);
                 i.putExtra("SITUATION_TYPE", videoType);
                 startActivity(i);
-                //videoField.start();
+//                videoField.start();
 
             }catch(Exception e){
                 e.printStackTrace();
