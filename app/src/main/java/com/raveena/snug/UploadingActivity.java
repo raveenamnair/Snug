@@ -69,12 +69,19 @@ public class UploadingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
-            Uri uri = data.getData();
+            videoUri = data.getData();
             try{
-                videoField.setVideoURI(uri);
-                Toast.makeText(getApplicationContext(), getRealPathFromURI(getApplicationContext(), uri), Toast.LENGTH_LONG).show();
+                videoField.setVideoURI(videoUri);
+
+                StorageReference sr = FirebaseStorage.getInstance().getReference();
+                if (videoUri != null) {
+                    uploadTask = videoRef.putFile(videoUri);
+
+                }
+
 
                 videoField.start();
+
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -98,13 +105,6 @@ public class UploadingActivity extends AppCompatActivity {
         }
     }
 
-//    //upload video filepath to firebase storage
-//    private void UploadVideo() {
-//        //TODO: progress bar?
-//        if (videoUri != null) {
-//            final StorageReference fileReference = videoRef.child();
-//            uploadTask = fileReference.putFile()
-//        }
-//    }
+
 
 }
