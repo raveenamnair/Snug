@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -32,6 +34,8 @@ public class VideoListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_list);
 
+        video = findViewById(R.id.videoView);
+
         // This will allow us to know which situation type was picked so we can display proper videos
         Bundle extra = getIntent().getExtras();
         String value = null;
@@ -43,8 +47,24 @@ public class VideoListActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference("uploads");
-        l = new ArrayList<>();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        StorageReference storageReference = storage.getReference().child("uploads/1611424481054.mp4");
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                System.out.println(uri);
+                video.setVideoURI(uri);
+                video.start();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+//        l = new ArrayList<>();
 //        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
 //            @Override
 //            public void onSuccess(ListResult listResult) {
@@ -64,19 +84,20 @@ public class VideoListActivity extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
 //            }
 //        });
-
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("uploads/1611424481054.mp4");
-        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                video.setVideoURI(uri);
-                video.start();
-            }
-        });
-
+//
+//        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("uploads/1611424481054.mp4");
+//        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                video.setVideoURI(uri);
+//                video.start();
+//            }
+//        });
 
         //video.start();
 
 
     }
+
+
 }

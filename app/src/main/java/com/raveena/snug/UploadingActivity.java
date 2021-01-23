@@ -32,19 +32,25 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class UploadingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     Button uploadBtn;
     VideoView videoField;
-//    Spinner spinner = findViewById(R.id.categories);
+    Spinner spinner;
+    List<String> categoryNames;
+    String videoType;
     private Uri videoUri;
     private static final int REQUEST_CODE = 1;
     private StorageReference videoRef;
     private DatabaseReference reference;
     private FirebaseUser firebaseUser;
     private StorageTask uploadTask;
+    private String videoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,14 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
 
         uploadBtn = findViewById(R.id.uploadBtn);
         videoField = findViewById(R.id.videoview);
+        spinner = findViewById(R.id.categories);
+
+        categoryNames = new ArrayList<>();
+        addCategoryNames();
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplication(),
+                android.R.layout.simple_spinner_item, categoryNames);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
 
         // clicking this button will allow you to choose a video
         uploadBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,13 +78,21 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 startActivityForResult(intent, REQUEST_CODE);
 
                 videoRef = FirebaseStorage.getInstance().getReference("uploads");
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                videoType = spinner.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categories, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-//        spinner.setOnItemSelectedListener(this);
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -80,7 +102,6 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
             try{
                 videoField.setVideoURI(videoUri);
                 Toast.makeText(getApplicationContext(), getRealPathFromURI(getApplicationContext(), videoUri), Toast.LENGTH_LONG).show();
-
 
                 if (uploadTask != null && uploadTask.isInProgress()) {
                     Toast.makeText(UploadingActivity.this, "Upload in progress...", Toast.LENGTH_SHORT).show();
@@ -92,7 +113,6 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 i.putExtra("SITUATION_TYPE", "Car");
                 startActivity(i);
                 //videoField.start();
-
 
             }catch(Exception e){
                 e.printStackTrace();
@@ -127,7 +147,9 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
     private void UploadVideo() {
         //TODO: progress bar?
         if (videoUri != null) {
-            final StorageReference fileReference = videoRef.child(System.currentTimeMillis() +
+            videoId = UUID.randomUUID().toString();
+
+            final StorageReference fileReference = videoRef.child(videoId +
                     "." + getFileExtension(videoUri));
             uploadTask = fileReference.putFile(videoUri);
             uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -143,12 +165,15 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
-                        String videoUri = downloadUri.toString();
+                        String videoUri2 = downloadUri.toString();
+                        reference = FirebaseDatabase.getInstance().getReference("Videos").child(videoId);
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("videoId", videoId);
+                        hashMap.put("videoUri", videoUri2);
+                        hashMap.put("filePath", videoId + getFileExtension(videoUri));
+//                        hashMap.put("category", );
+                        reference.setValue(hashMap);
 
-                        //reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                        /*HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("videoUrl", videoUri);
-                        reference.updateChildren(hashMap);*/
                     } else {
                         System.out.println("Error here?");
                         Toast.makeText(UploadingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
@@ -174,5 +199,18 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void addCategoryNames() {
+        //categoryNames.add("Pick a Situation");
+        categoryNames.add("Car");
+        categoryNames.add("Party");
+        categoryNames.add("Group");
+        categoryNames.add("Walking");
+        categoryNames.add("Alone");
+        categoryNames.add("Work");
+        categoryNames.add("School");
+        categoryNames.add("Store");
+        categoryNames.add("Home");
     }
 }
