@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -45,6 +47,8 @@ public class VideoListActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
         StorageReference storageReference = storage.getReference().child("uploads/1611424481054.mp4");
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -94,4 +98,6 @@ public class VideoListActivity extends AppCompatActivity {
 
 
     }
+
+
 }
