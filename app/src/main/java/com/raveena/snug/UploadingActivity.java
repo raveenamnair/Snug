@@ -37,8 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class UploadingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-
+public class UploadingActivity extends AppCompatActivity {
     Button uploadBtn;
     VideoView videoField;
     Spinner spinner;
@@ -60,7 +59,6 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
         uploadBtn = findViewById(R.id.uploadBtn);
         videoField = findViewById(R.id.videoview);
         spinner = findViewById(R.id.categories);
-
         categoryNames = new ArrayList<>();
         addCategoryNames();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplication(),
@@ -92,7 +90,6 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
 
             }
         });
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -102,7 +99,6 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
             try{
                 videoField.setVideoURI(videoUri);
                 Toast.makeText(getApplicationContext(), getRealPathFromURI(getApplicationContext(), videoUri), Toast.LENGTH_LONG).show();
-
                 if (uploadTask != null && uploadTask.isInProgress()) {
                     Toast.makeText(UploadingActivity.this, "Upload in progress...", Toast.LENGTH_SHORT).show();
                 } else {
@@ -110,7 +106,7 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                 }
 
                 Intent i = new Intent(getApplicationContext(), VideoListActivity.class);
-                i.putExtra("SITUATION_TYPE", "Car");
+                i.putExtra("SITUATION_TYPE", videoType);
                 startActivity(i);
                 //videoField.start();
 
@@ -148,7 +144,6 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
         //TODO: progress bar?
         if (videoUri != null) {
             videoId = UUID.randomUUID().toString();
-
             final StorageReference fileReference = videoRef.child(videoId +
                     "." + getFileExtension(videoUri));
             uploadTask = fileReference.putFile(videoUri);
@@ -170,10 +165,9 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("videoId", videoId);
                         hashMap.put("videoUri", videoUri2);
-                        hashMap.put("filePath", videoId + getFileExtension(videoUri));
-//                        hashMap.put("category", );
+                        hashMap.put("filePath", videoId + "." + getFileExtension(videoUri));
+                        hashMap.put("category", videoType);
                         reference.setValue(hashMap);
-
                     } else {
                         System.out.println("Error here?");
                         Toast.makeText(UploadingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
@@ -188,17 +182,6 @@ public class UploadingActivity extends AppCompatActivity implements AdapterView.
         } else {
             Toast.makeText(UploadingActivity.this, "No Video Selected", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    //TODO
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 
     public void addCategoryNames() {
