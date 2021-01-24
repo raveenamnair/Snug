@@ -51,18 +51,6 @@
         app:layout_constraintTop_toBottomOf="@+id/choosePromt"
         tools:layout_editor_absoluteX="197dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="69dp"
-        android:layout_height="283dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginEnd="84dp"
-        android:layout_marginRight="84dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/uploadBtn"
-        app:layout_constraintTop_toBottomOf="@+id/uploadBtn" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
