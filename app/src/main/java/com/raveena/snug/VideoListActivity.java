@@ -3,11 +3,14 @@ package com.raveena.snug;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -49,6 +52,9 @@ public class VideoListActivity extends AppCompatActivity {
 
         video = findViewById(R.id.videoView);
         refreshBtn = findViewById(R.id.RefreshBtn);
+        ImageButton play = findViewById(R.id.playbtn);
+//        play.setBackgroundResource(R.drawable.animation_list);
+//        final AnimationDrawable playAnimation = (AnimationDrawable) play.getBackground();
 
         // This will allow us to know which situation type was picked so we can display proper videos
         Bundle extra = getIntent().getExtras();
@@ -56,19 +62,29 @@ public class VideoListActivity extends AppCompatActivity {
         if (extra != null) {
             videoCategory = extra.getString("SITUATION_TYPE");
         }
-
-        video.setOnTouchListener(new View.OnTouchListener() {
+        play.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent event) {
+            public void onClick(View v) {
                 if (video.isPlaying()) {
+                    Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
                     video.pause();
-                }
-                else {
+                } else {
                     video.start();
                 }
-                return true;
             }
         });
+//        video.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent event) {
+//                if (video.isPlaying()) {
+//                    video.pause();
+//                }
+//                else {
+//                    video.start();
+//                }
+//                return true;
+//            }
+//        });
 
         // For debugging purposes
         //Toast.makeText(getApplicationContext(), videoCategory, Toast.LENGTH_SHORT).show();
@@ -118,8 +134,9 @@ public class VideoListActivity extends AppCompatActivity {
                 // Got the download URL for 'users/me/profile.png'
                 System.out.println(uri);
                 video.setVideoURI(uri);
-                video.start();
-                //video.pause();
+                //video.start();
+                video.seekTo(1);
+                video.pause();
                 for (Video v: videoList) {
                     System.out.println(v.getCategory());
                 }
