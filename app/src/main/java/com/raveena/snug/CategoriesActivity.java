@@ -5,9 +5,11 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +31,8 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
     CardView car_card, walk_card, party_card, group_card, alone_card, work_card, school_card,
             store_card, home_card;
     ImageButton add_fab;
+    Button loginLogoutBtn;
+    TextView greetingText;
 
     FirebaseUser firebaseUser;
     FirebaseAuth firebaseAuth;
@@ -50,6 +54,9 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
         home_card = findViewById(R.id.home_card);
         add_fab = findViewById(R.id.addFAB);
 
+        loginLogoutBtn = findViewById(R.id.loginCategory);
+        greetingText = findViewById(R.id.greetingText);
+
         car_card.setOnClickListener(this);
         party_card.setOnClickListener(this);
         group_card.setOnClickListener(this);
@@ -64,6 +71,23 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
         //Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        changeStr();
+
+        //if the user is not logged in
+        loginLogoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (firebaseUser != null) {
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(CategoriesActivity.this, CategoriesActivity.class)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                } else {
+                    Intent i = new Intent(CategoriesActivity.this, LoginActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
     }
 
     @Override
@@ -112,5 +136,16 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
 
         }
         startActivity(goToNextActivity);
+    }
+
+    private void changeStr() {
+        //if the user is already logged in
+        if(firebaseUser != null) {
+            loginLogoutBtn.setText(R.string.logoutText);
+            greetingText.setText(R.string.welcomeStr);
+        } else {
+            loginLogoutBtn.setText(R.string.loginText);
+            greetingText.setText(R.string.helloStr);
+        }
     }
 }
