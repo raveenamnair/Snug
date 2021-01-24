@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -28,13 +29,19 @@ import com.raveena.snug.Model.Video;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class VideoListActivity extends AppCompatActivity {
 
     VideoView video;
     String videoPath;
+    Button refreshBtn;
+    String videoCategory;
     ArrayList <String> l;
+    boolean clicked = false;
     DatabaseReference reference;
+    List<Video> videoList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +49,17 @@ public class VideoListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_video_list);
 
         video = findViewById(R.id.videoView);
+        refreshBtn = findViewById(R.id.RefreshBtn);
 
         // This will allow us to know which situation type was picked so we can display proper videos
         Bundle extra = getIntent().getExtras();
-        String value = null;
+        videoCategory = null;
         if (extra != null) {
-            value = extra.getString("SITUATION_TYPE");
+            videoCategory = extra.getString("SITUATION_TYPE");
         }
 
         // For debugging purposes
-        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), videoCategory, Toast.LENGTH_SHORT).show();
 
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         reference = FirebaseDatabase.getInstance().getReference("Videos");
@@ -61,7 +69,12 @@ public class VideoListActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Video video = snapshot1.getValue(Video.class);
                     videoPath = video.getFilePath();
+                    if (video.getCategory() != null && video.getCategory().equals(videoCategory)) {
+                        videoList.add(video);
+                    }
                 }
+                Collections.shuffle(videoList);
+                videoPath = videoList.get(0).getFilePath();
                 StorageReference storageReference = storage.getReference().child("uploads/" + videoPath);
                 System.out.println("VIDEOPATH " + videoPath);
                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -71,6 +84,12 @@ public class VideoListActivity extends AppCompatActivity {
                         System.out.println(uri);
                         video.setVideoURI(uri);
                         video.start();
+                        //video.pause();
+                        Toast.makeText(getApplicationContext(), "Video success", Toast.LENGTH_LONG).show();
+                        System.out.println("REAL LIST");
+                        for (Video v: videoList) {
+                            System.out.println(v.getCategory());
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -85,6 +104,53 @@ public class VideoListActivity extends AppCompatActivity {
 
             }
         });
+
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Clicked refresh", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+//        StorageReference storageReference = null;
+//        List<Video> specialList = videoList;
+//        for (int i = 0; i < specialList.size(); i++) {
+//            storageReference = storage.getReference().child("uploads/" + specialList.get(i).getFilePath());
+//            System.out.println("VIDEOPATH " + specialList.get(i).getFilePath());
+//            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    // Got the download URL for 'users/me/profile.png'
+//                    System.out.println(uri);
+//                    video.setVideoURI(uri);
+//                    video.start();
+//                    Toast.makeText(getApplicationContext(), "Video success", Toast.LENGTH_LONG).show();
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception exception) {
+//                    // Handle any errors
+//                    Toast.makeText(getApplicationContext(), "Sorry, your requested video couldn't load", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//
+//            refreshBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    video.stopPlayback();
+//                    clicked = true;
+//                }
+//            });
+//            if (!clicked) {
+//                video.stopPlayback();
+//                break;
+//            }
+//
+//        }
+
+
 //        StorageReference storageReference = storage.getReference().child("uploads/" + videoPath);
 //        System.out.println("VIDEOPATH " + videoPath);
 //        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -134,6 +200,17 @@ public class VideoListActivity extends AppCompatActivity {
         //video.start();
 
 
+    }
+
+    public List<Video> getSpecializedList() {
+        List<Video> specialList = new ArrayList<>();
+        for (int i = 0; i < videoList.size(); i++) {
+            if (videoList.get(i).getCategory().equals(videoCategory)) {
+                specialList.add(videoList.get(i));
+            }
+        }
+        Collections.shuffle(specialList);
+        return specialList;
     }
 
 
