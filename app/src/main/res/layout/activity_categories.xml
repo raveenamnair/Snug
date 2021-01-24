@@ -52,8 +52,6 @@
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@+id/car_card"
-        app:layout_constraintEnd_toStartOf="@+id/party_card"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
@@ -94,9 +92,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@+id/walk_card"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/party_card">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -131,15 +127,14 @@
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_margin="10dp"
+        android:layout_marginTop="44dp"
         android:backgroundTint="@color/linen"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/store_card"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="150dp"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toBottomOf="@+id/loginCategory"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="151dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -260,13 +255,13 @@
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_margin="10dp"
-        android:layout_marginBottom="8dp"
         android:backgroundTint="@color/linen"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/home_card"
-        tools:layout_editor_absoluteX="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/party_card"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -390,8 +385,9 @@
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="8dp"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="469dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/store_card"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
