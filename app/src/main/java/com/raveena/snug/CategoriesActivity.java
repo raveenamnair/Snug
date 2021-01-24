@@ -112,7 +112,7 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
                     situationType = "Group";
                     break;
                 case R.id.walk_card:
-                    situationType = "Walk";
+                    situationType = "Walking";
                     break;
                 case R.id.alone_card:
                     situationType = "Alone";

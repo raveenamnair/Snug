@@ -137,6 +137,7 @@ public class UploadingActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful()) {
+                        Toast.makeText(UploadingActivity.this, "Please wait...", Toast.LENGTH_SHORT).show();
                         Uri downloadUri = task.getResult();
                         String videoUri2 = downloadUri.toString();
                         reference = FirebaseDatabase.getInstance().getReference("Videos").child(videoId);
@@ -146,6 +147,9 @@ public class UploadingActivity extends AppCompatActivity {
                         hashMap.put("filePath", videoId + "." + getFileExtension(videoUri));
                         hashMap.put("category", videoType);
                         reference.setValue(hashMap);
+                        videoField.setVideoURI(videoUri);
+                        videoField.seekTo(1);
+                        videoField.pause();
                         Toast.makeText(UploadingActivity.this, "Upload Successful", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(UploadingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
