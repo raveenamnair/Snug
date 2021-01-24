@@ -14,6 +14,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -40,7 +41,7 @@ import java.util.UUID;
 public class UploadingActivity extends AppCompatActivity {
     Button uploadBtn;
     VideoView videoField;
-    Spinner spinner;
+    AutoCompleteTextView spinner;
     List<String> categoryNames;
     String videoType;
     private Uri videoUri;
@@ -82,7 +83,7 @@ public class UploadingActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                videoType = spinner.getSelectedItem().toString();
+                videoType = spinner.getOnItemSelectedListener().toString();
             }
 
             @Override

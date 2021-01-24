@@ -8,49 +8,84 @@
     android:background="@color/linen"
     tools:context=".UploadingActivity">
 
-    <Button
-        android:id="@+id/uploadBtn"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Video Upload"
+        android:textColor="@color/tealBlue"
+        android:textSize="34sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        style="@style/TextAppearance.MaterialComponents.Overline"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:text="Help the community by uploading your own SafetyCall video"
+        android:textColor="@color/lightTealBlue"
+        android:textSize="13sp"
+        android:textStyle="normal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        android:gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/uploadBtn"
+        android:layout_width="320dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="96dp"
+        android:backgroundTint="@color/tealBlue"
         android:text="upload"
-        app:backgroundTint="#3F51B5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.411"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.909" />
+        app:shapeAppearance="@style/Cut" />
 
     <VideoView
         android:id="@+id/videoview"
-        android:layout_width="164dp"
-        android:layout_height="141dp"
-        app:layout_constraintBottom_toTopOf="@+id/uploadBtn"
+        android:layout_width="320dp"
+        android:layout_height="249dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.549">
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
     </VideoView>
 
-    <TextView
-        android:id="@+id/choosePromt"
-        android:layout_width="96dp"
-        android:layout_height="61dp"
-        android:text="Choose a Category"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:hint="Category"
+        app:boxStrokeColor="@color/tealBlue"
+        app:boxStrokeErrorColor="@color/errorRed"
+        app:hintTextColor="@color/tealBlue"
+        app:layout_constraintBottom_toTopOf="@+id/uploadBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoview" />
+        app:layout_constraintTop_toBottomOf="@+id/videoview"
+        app:startIconDrawable="@drawable/category"
+        app:shapeAppearance="@style/Cut">
 
-    <Spinner
-        android:id="@+id/categories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/uploadBtn"
-        app:layout_constraintTop_toBottomOf="@+id/choosePromt"
-        tools:layout_editor_absoluteX="197dp" />
-
+        <AutoCompleteTextView
+            android:id="@+id/categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:dropDownHeight="200dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
