@@ -47,7 +47,6 @@ public class UploadingActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
     private StorageReference videoRef;
     private DatabaseReference reference;
-    private FirebaseUser firebaseUser;
     private StorageTask uploadTask;
     private String videoId;
 
@@ -76,6 +75,7 @@ public class UploadingActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE);
 
                 videoRef = FirebaseStorage.getInstance().getReference("uploads");
+                System.out.println(videoRef.getPath());
             }
         });
 
@@ -97,40 +97,16 @@ public class UploadingActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             videoUri = data.getData();
             try{
-                videoField.setVideoURI(videoUri);
-                Toast.makeText(getApplicationContext(), getRealPathFromURI(getApplicationContext(), videoUri), Toast.LENGTH_LONG).show();
                 if (uploadTask != null && uploadTask.isInProgress()) {
                     Toast.makeText(UploadingActivity.this, "Upload in progress...", Toast.LENGTH_SHORT).show();
                 } else {
                     UploadVideo();
                 }
-
-                Intent i = new Intent(getApplicationContext(), VideoListActivity.class);
-                i.putExtra("SITUATION_TYPE", videoType);
-                startActivity(i);
-                //videoField.start();
-
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
 
-    }
-
-    // This method lied and doesn't actually work - produces empty string
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Video.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
     }
 
     private String getFileExtension(Uri uri) {
@@ -141,7 +117,6 @@ public class UploadingActivity extends AppCompatActivity {
 
     //upload video filepath to firebase storage
     private void UploadVideo() {
-        //TODO: progress bar?
         if (videoUri != null) {
             videoId = UUID.randomUUID().toString();
             final StorageReference fileReference = videoRef.child(videoId +
@@ -168,8 +143,8 @@ public class UploadingActivity extends AppCompatActivity {
                         hashMap.put("filePath", videoId + "." + getFileExtension(videoUri));
                         hashMap.put("category", videoType);
                         reference.setValue(hashMap);
+                        Toast.makeText(UploadingActivity.this, "Upload Successful", Toast.LENGTH_SHORT).show();
                     } else {
-                        System.out.println("Error here?");
                         Toast.makeText(UploadingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
                     }
                 }

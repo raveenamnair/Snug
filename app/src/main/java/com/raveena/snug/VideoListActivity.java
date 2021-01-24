@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -15,41 +16,102 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.raveena.snug.Model.Video;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class VideoListActivity extends AppCompatActivity {
 
     VideoView video;
-    ArrayList <String> l;
+    String videoPath;
+    Button refreshBtn;
+    String videoCategory;
+    int counter = 0;
+    DatabaseReference reference;
+    List<Video> videoList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_list);
 
         video = findViewById(R.id.videoView);
+        refreshBtn = findViewById(R.id.RefreshBtn);
 
         // This will allow us to know which situation type was picked so we can display proper videos
         Bundle extra = getIntent().getExtras();
-        String value = null;
+        videoCategory = null;
         if (extra != null) {
-            value = extra.getString("SITUATION_TYPE");
+            videoCategory = extra.getString("SITUATION_TYPE");
         }
 
+        video.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (video.isPlaying()) {
+                    video.pause();
+                }
+                else {
+                    video.start();
+                }
+                return true;
+            }
+        });
+
         // For debugging purposes
-        Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), videoCategory, Toast.LENGTH_SHORT).show();
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference("Videos");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Video video = snapshot1.getValue(Video.class);
+                    videoPath = video.getFilePath();
+                    if (video.getCategory() != null && video.getCategory().equals(videoCategory)) {
+                        videoList.add(video);
+                    }
+                }
+                Collections.shuffle(videoList);
+                generateVideo(storage);
+            }
 
-        StorageReference storageReference = storage.getReference().child("uploads/1611424481054.mp4");
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Page Refreshed", Toast.LENGTH_SHORT).show();
+                generateVideo(storage);
+            }
+        });
+    }
+
+    private void generateVideo(FirebaseStorage storage) {
+        if (counter >= videoList.size()) {
+            counter = 0;
+        }
+        videoPath = videoList.get(counter).getFilePath();
+        counter++;
+        StorageReference storageReference = storage.getReference().child("uploads/" + videoPath);
+        System.out.println("VIDEOPATH " + videoPath);
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -57,47 +119,17 @@ public class VideoListActivity extends AppCompatActivity {
                 System.out.println(uri);
                 video.setVideoURI(uri);
                 video.start();
+                //video.pause();
+                for (Video v: videoList) {
+                    System.out.println(v.getCategory());
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
+                Toast.makeText(getApplicationContext(), "Video Failed", Toast.LENGTH_LONG).show();
             }
         });
-//        l = new ArrayList<>();
-//        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-//            @Override
-//            public void onSuccess(ListResult listResult) {
-//                for (StorageReference fileRef : listResult.getItems()) {
-//                    l.add(fileRef.getPath());
-//                    System.out.println(fileRef.getPath());
-//                }
-//                StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("/uploads/1611424481054.mp4");
-//                Uri file = Uri.fromFile(new File("path/to/folderName/file.jpg"));
-//                UploadTask uploadTask = storageRef.putFile(file);
-//
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("uploads/1611424481054.mp4");
-//        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                video.setVideoURI(uri);
-//                video.start();
-//            }
-//        });
-
-        //video.start();
-
-
     }
-
-
 }
