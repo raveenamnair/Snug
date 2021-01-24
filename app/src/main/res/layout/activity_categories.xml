@@ -7,6 +7,19 @@
     android:background="@color/linen"
     tools:context=".CategoriesActivity">
 
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="56dp"
+        android:src="@drawable/person"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
     <TextView
         android:id="@+id/greetingText"
         android:layout_width="wrap_content"
@@ -14,31 +27,32 @@
         android:layout_marginTop="35dp"
         android:layout_marginBottom="40dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Hello"
+        android:text="Hello, User"
         android:textColor="@color/tealBlue"
-        android:textSize="60dp"
+        android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.080"
+        app:layout_constraintHorizontal_bias="0.149"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.569"></TextView>
 
     <Button
         android:id="@+id/loginCategory"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="120dp"
         android:fontFamily="@font/montserrat"
         android:text="Click to Login"
         android:textColor="@color/lightTealBlue"
         android:textSize="14dp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.022"
+        app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/greetingText"></Button>
+        app:layout_constraintTop_toTopOf="parent"></Button>
 
     <LinearLayout
         android:id="@+id/linearLayout2"

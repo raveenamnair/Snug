@@ -35,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:contentDescription="@string/refresh"
             app:srcCompat="@drawable/refresh"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="50dp"/>

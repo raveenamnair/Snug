@@ -2,7 +2,7 @@
     <string name="app_name">Snug</string>
     <string name="logoutText">Click to logout</string>
     <string name="loginText">Click to login</string>
-    <string name="welcomeStr">Welcome!</string>
-    <string name="helloStr">Hello</string>
+    <string name="welcomeStr">Welcome Back</string>
+    <string name="helloStr">Hello, User</string>
     <string name="refresh">refresh</string>
 </resources>

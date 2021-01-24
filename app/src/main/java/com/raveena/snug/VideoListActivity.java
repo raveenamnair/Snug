@@ -39,7 +39,7 @@ public class VideoListActivity extends AppCompatActivity {
 
     VideoView video;
     String videoPath;
-    Button refreshBtn;
+    ImageButton refreshBtn;
     String videoCategory;
     int counter = 0;
     DatabaseReference reference;

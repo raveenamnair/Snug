@@ -84,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            android:dropDownHeight="200dp" />
+            android:dropDownHeight="150dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 

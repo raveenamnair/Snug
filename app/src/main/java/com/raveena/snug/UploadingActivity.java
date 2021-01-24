@@ -59,6 +59,7 @@ public class UploadingActivity extends AppCompatActivity {
         uploadBtn = findViewById(R.id.uploadBtn);
         videoField = findViewById(R.id.videoview);
         spinner = findViewById(R.id.categories);
+        spinner.setDropDownBackgroundResource(R.color.linen);
         categoryNames = new ArrayList<>();
         addCategoryNames();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplication(),
