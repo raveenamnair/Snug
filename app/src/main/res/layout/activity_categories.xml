@@ -29,7 +29,7 @@
         android:fontFamily="@font/montserrat_bold"
         android:text="Hello, User"
         android:textColor="@color/tealBlue"
-        android:textSize="40dp"
+        android:textSize="32dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
