@@ -114,6 +114,8 @@ public class UploadingActivity extends AppCompatActivity {
             }catch(Exception e){
                 e.printStackTrace();
             }
+        } else {
+            Toast.makeText(getApplicationContext(), "Doesn't work", Toast.LENGTH_SHORT).show();
         }
 
     }

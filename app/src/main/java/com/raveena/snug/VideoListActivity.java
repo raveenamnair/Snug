@@ -74,29 +74,8 @@ public class VideoListActivity extends AppCompatActivity {
                     }
                 }
                 Collections.shuffle(videoList);
-                videoPath = videoList.get(0).getFilePath();
-                StorageReference storageReference = storage.getReference().child("uploads/" + videoPath);
-                System.out.println("VIDEOPATH " + videoPath);
-                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        // Got the download URL for 'users/me/profile.png'
-                        System.out.println(uri);
-                        video.setVideoURI(uri);
-                        video.start();
-                        //video.pause();
-                        Toast.makeText(getApplicationContext(), "Video success", Toast.LENGTH_LONG).show();
-                        System.out.println("REAL LIST");
-                        for (Video v: videoList) {
-                            System.out.println(v.getCategory());
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
+                getVideo(storage, 0);
+
             }
 
             @Override
@@ -109,6 +88,8 @@ public class VideoListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Clicked refresh", Toast.LENGTH_SHORT).show();
+                int val = 1;
+                getVideo(storage, val);
             }
         });
 
@@ -211,6 +192,32 @@ public class VideoListActivity extends AppCompatActivity {
         }
         Collections.shuffle(specialList);
         return specialList;
+    }
+
+    public void getVideo(FirebaseStorage storage, int val) {
+        videoPath = videoList.get(val).getFilePath();
+        StorageReference storageReference = storage.getReference().child("uploads/" + videoPath);
+        System.out.println("VIDEOPATH " + videoPath);
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                System.out.println(uri);
+                video.setVideoURI(uri);
+                video.start();
+                //video.pause();
+                Toast.makeText(getApplicationContext(), "Video success", Toast.LENGTH_LONG).show();
+                System.out.println("REAL LIST");
+                for (Video v: videoList) {
+                    System.out.println(v.getCategory());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
 
