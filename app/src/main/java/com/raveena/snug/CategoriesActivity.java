@@ -5,10 +5,10 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,7 +28,7 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
 
     CardView car_card, walk_card, party_card, group_card, alone_card, work_card, school_card,
             store_card, home_card;
-    FloatingActionButton add_fab;
+    ImageButton add_fab;
 
     FirebaseUser firebaseUser;
     FirebaseAuth firebaseAuth;
