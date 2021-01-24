@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -8,48 +8,38 @@
     android:layout_gravity="center_horizontal"
     tools:context=".VideoListActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_margin="24dp"
-        android:textSize="20dp"
-        android:text="Click refresh to get a different video"
-        android:gravity="center_horizontal">
-    </TextView>
-
 
     <FrameLayout
-        android:layout_width="200dp"
-        android:layout_height="350dp"
-        android:layout_margin="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|center_vertical"
         android:background="@color/taupeGray">
 
         <VideoView
             android:id="@+id/videoView"
-            android:layout_width="200dp"
-            android:layout_height="350dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal|center_vertical"
             app:layout_constraintVertical_bias="0.652" />
 
         <ImageButton
-            android:layout_width="200dp"
             android:id="@+id/playbtn"
-            android:layout_height="350dp"
-            android:alpha="0.25"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:src="@drawable/animation_list"/>
+            android:alpha="0.25"
+            android:src="@drawable/animation_list" />
+
+        <ImageButton
+            android:id="@+id/RefreshBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="@string/refresh"
+            app:srcCompat="@drawable/refresh"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="50dp"/>
 
     </FrameLayout>
 
-    <Button
-        android:id="@+id/RefreshBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:layout_gravity="center">
-    </Button>
-
-</LinearLayout>
+</RelativeLayout>

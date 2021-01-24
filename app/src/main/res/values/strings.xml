@@ -4,4 +4,5 @@
     <string name="loginText">Click to login</string>
     <string name="welcomeStr">Welcome!</string>
     <string name="helloStr">Hello</string>
+    <string name="refresh">refresh</string>
 </resources>
