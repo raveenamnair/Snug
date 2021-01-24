@@ -145,6 +145,9 @@ public class UploadingActivity extends AppCompatActivity {
                         hashMap.put("filePath", videoId + "." + getFileExtension(videoUri));
                         hashMap.put("category", videoType);
                         reference.setValue(hashMap);
+                        videoField.setVideoURI(videoUri);
+                        videoField.seekTo(1);
+                        videoField.pause();
                         Toast.makeText(UploadingActivity.this, "Upload Successful", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(UploadingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
