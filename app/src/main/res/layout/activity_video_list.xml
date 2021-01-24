@@ -1,31 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
     tools:context=".VideoListActivity">
 
-    <VideoView
-        android:id="@+id/videoView"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_margin="24dp"
+        android:textSize="20dp"
+        android:text="Click refresh to get a different video"
+        android:gravity="center_horizontal">
+    </TextView>
+
+
+    <FrameLayout
         android:layout_width="200dp"
-        android:layout_height="400dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.652" />
+        android:layout_height="350dp"
+        android:layout_margin="50dp"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:background="@color/taupeGray">
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="200dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            app:layout_constraintVertical_bias="0.652" />
+
+        <ImageButton
+            android:layout_width="200dp"
+            android:id="@+id/playbtn"
+            android:layout_height="350dp"
+            android:alpha="0.25"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@drawable/animation_list"/>
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/RefreshBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Refresh"
-        app:layout_constraintBottom_toTopOf="@+id/videoView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.426"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75"></Button>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_gravity="center">
+    </Button>
+
+</LinearLayout>
