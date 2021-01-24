@@ -137,6 +137,7 @@ public class UploadingActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful()) {
+                        Toast.makeText(UploadingActivity.this, "Please wait...", Toast.LENGTH_SHORT).show();
                         Uri downloadUri = task.getResult();
                         String videoUri2 = downloadUri.toString();
                         reference = FirebaseDatabase.getInstance().getReference("Videos").child(videoId);

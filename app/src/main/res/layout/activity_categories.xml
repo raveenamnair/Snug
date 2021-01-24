@@ -11,7 +11,7 @@
         android:id="@+id/greetingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="35dp"
         android:layout_marginBottom="40dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="Hello"
@@ -29,7 +29,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="@font/montserrat"
         android:text="Click to Login"
         android:textColor="@color/lightTealBlue"
@@ -38,13 +38,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.022"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/greetingText">
-    </Button>
+        app:layout_constraintTop_toTopOf="@id/greetingText"></Button>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -170,6 +170,8 @@
         android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@id/linearlayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -295,6 +297,7 @@
         android:id="@+id/linearlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
